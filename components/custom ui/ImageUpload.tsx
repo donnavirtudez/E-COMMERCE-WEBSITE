@@ -15,8 +15,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   onRemove,
   value,
 }) => {
-  const onUpload = (result: any) => {
+  const handleUploadSuccess = (result: any) => {
     onChange(result.info.secure_url);
+  };
+
+  const handleUploadError = (error: any) => {
+    console.error("Upload failed:", error);
   };
 
   return (
@@ -25,7 +29,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         {value.map((url) => (
           <div key={url} className="relative w-[200px] h-[200px]">
             <div className="absolute top-0 right-0 z-10">
-              <Button type="button" onClick={() => onRemove(url)} size="sm" className="bg-red-1 text-white">
+              <Button
+                type="button"
+                onClick={() => onRemove(url)}
+                size="sm"
+                className="cursor-pointer bg-[#DC0000] text-[#FFFFFF]"
+              >
                 <Trash className="h-4 w-4" />
               </Button>
             </div>
@@ -39,10 +48,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
 
-      <CldUploadWidget uploadPreset="myupload123" onUpload={onUpload}>
+      <CldUploadWidget
+        uploadPreset="myupload123"
+        onSuccess={handleUploadSuccess}
+        onError={handleUploadError}
+      >
         {({ open }) => {
           return (
-            <Button type="button" onClick={() => open()} className="bg-grey-1 text-white">
+            <Button
+              onClick={() => open()}
+              className="cursor-pointer bg-[#4E71FF] text-[#FFFFFF]"
+            >
               <Plus className="h-4 w-4 mr-2" />
               Upload Image
             </Button>
